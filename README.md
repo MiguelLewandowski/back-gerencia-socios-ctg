@@ -1,6 +1,8 @@
 # 📊 Sistema de Gestao CTG Raizes da (Backend)
 
-OBS: Foram mantidos os Endpoints/MVC anteriores para ter algo com que se basear. Conforme forem criando os Endpoints de verdade, removam os antigos (Que sao de outro projeto)
+## Tecnologias necessarias
+
+Xampp
 
 ## ⚙️ Configuração do Ambiente
 
@@ -44,6 +46,18 @@ EXIT;
 
 ```bash
 mysql -u ctg_user -p ctg < src/Database/schema.sql
+```
+
+### 5. Popular banco de dados (PARA TESTES!)
+
+Execute no terminal
+```bash
+mysql -u ctg_user -p1234 ctg < src/Database/seed.sql
+```
+
+Para limpar o banco de dados:
+```bash
+mysql -u ctg_user -p1234 ctg < src/Database/cleanup.sql
 ```
 
 ---
