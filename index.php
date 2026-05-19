@@ -7,6 +7,8 @@ use Controller\RelatorioController;
 use Controller\MensalidadeController;
 use Controller\PagamentoController;
 use Controller\SocioController;
+use Controller\DependenteController;
+use Controller\CartaoTradController;
 use Http\Request;
 use Http\Response;
 use Error\APIException;
@@ -38,6 +40,16 @@ switch ($request->getResource()) { //conforme o recurso solicitado
         $socioController = new SocioController();
         $socioController->processRequest($request);
         break;
+    case 'dependentes':
+        // rotas para /dependentes
+        $dependenteController = new DependenteController();
+        $dependenteController->processRequest($request);
+        break;
+    case 'cartao-tradicionalista':
+        // rotas para /cartao-tradicionalista
+        $cartaoTradController = new CartaoTradController();
+        $cartaoTradController->processRequest($request);
+        break;
     case null:
         //para a raiz (rota /)
         $endpoints = [
@@ -62,6 +74,21 @@ switch ($request->getResource()) { //conforme o recurso solicitado
             "POST /api/socios",
             "PUT /api/socios/:id",
             "DELETE /api/socios/:id",
+            "GET /api/dependentes",
+            "GET /api/dependentes/:id",
+            "POST /api/dependentes",
+            "PUT /api/dependentes/:id",
+            "DELETE /api/dependentes/:id",
+            "GET /api/categorias",
+            "GET /api/categorias/:id",
+            "POST /api/categorias",
+            "PUT /api/categorias/:id",
+            "DELETE /api/categorias/:id",
+            "GET /api/cartao-tradicionalista",
+            "GET /api/cartao-tradicionalista/:id",
+            "POST /api/cartao-tradicionalista",
+            "PUT /api/cartao-tradicionalista/:id",
+            "DELETE /api/cartao-tradicionalista/:id"
         ];
         Response::send(["endpoints" => $endpoints]);
         break;

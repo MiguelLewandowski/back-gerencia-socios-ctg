@@ -3,6 +3,7 @@ CREATE TABLE `socios` (
   `nome_completo` varchar(255),
   `telefone` varchar(255),
   `cpf` varchar(255) UNIQUE,
+  `email` varchar(255),
   `foto` blob,
   `identidade` varchar(255),
   `endereco` text,
@@ -11,7 +12,8 @@ CREATE TABLE `socios` (
   `categoria_id` integer,
   `status` ENUM ('Ativo', 'Inativo') DEFAULT 'Ativo',
   `dancarino` boolean DEFAULT false,
-  `paga_instrutor` boolean DEFAULT false
+  `paga_instrutor` boolean DEFAULT false,
+  `cartao_trad_id` integer
 );
 
 CREATE TABLE `dependentes` (

@@ -12,6 +12,7 @@ class Socio implements JsonSerializable {
     private ?int $id;
     private string $nome;
     private string $cpf;
+    private string $email;
     private string $telefone;
     private string $foto;
     private string $identidade;
@@ -33,6 +34,7 @@ class Socio implements JsonSerializable {
     public function __construct(
         string $nome,
         string $cpf,
+        string $email,
         string $telefone,
         string $foto,
         string $identidade,
@@ -48,6 +50,7 @@ class Socio implements JsonSerializable {
         $this->id = $id;
         $this->nome = $nome;
         $this->cpf = $cpf;
+        $this->email = $email;
         $this->telefone = $telefone;
         $this->foto = $foto;
         $this->identidade = $identidade;
@@ -73,6 +76,10 @@ class Socio implements JsonSerializable {
 
     public function getCpf(): string {
         return $this->cpf;
+    }
+
+    public function getEmail(): string {
+        return $this->email;
     }
 
     public function getTelefone(): string {
@@ -134,6 +141,10 @@ class Socio implements JsonSerializable {
         $this->cpf = $cpf;
     }
 
+    public function setEmail(string $email): void {
+        $this->email = $email;
+    }
+
     public function setTelefone(string $telefone): void {
         $this->telefone = $telefone;
     }
@@ -168,6 +179,7 @@ class Socio implements JsonSerializable {
             'id' => $this->id,
             'nome' => $this->nome,
             'cpf' => $this->cpf,
+            'email' => $this->email,
             'telefone' => $this->telefone,
             'foto' => $this->foto,
             'identidade' => $this->identidade,

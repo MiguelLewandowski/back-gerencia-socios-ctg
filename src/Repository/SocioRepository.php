@@ -68,13 +68,14 @@ class SocioRepository
             INSERT INTO socios (
                 nome_completo,
                 cpf,
+                email,
                 telefone,
                 foto,
                 identidade,
                 endereco,
                 data_nascimento,
                 data_entrada,
-                categoria,
+                categoria_id,
                 status,
                 dancarino,
                 paga_instrutor,
@@ -83,13 +84,14 @@ class SocioRepository
             VALUES (
                 :nome_completo,
                 :cpf,
+                :email,
                 :telefone,
                 :foto,
                 :identidade,
                 :endereco,
                 :data_nascimento,
                 :data_entrada,
-                :categoria,
+                :categoria_id,
                 :status,
                 :dancarino,
                 :paga_instrutor,
@@ -100,13 +102,14 @@ class SocioRepository
         $stmt->execute([
             ':nome_completo' => $socio->getNome(),
             ':cpf' => $socio->getCpf(),
+            ':email' => $socio->getEmail(),
             ':telefone' => $socio->getTelefone(),
             ':foto' => $socio->getFoto(),
             ':identidade' => $socio->getIdentidade(),
             ':endereco' => $this->enderecoToString($socio->getEndereco()),
             ':data_nascimento' => $socio->getDataNascimento()->format('Y-m-d'),
             ':data_entrada' => $socio->getDataEntrada()->format('Y-m-d'),
-            ':categoria' => $socio->getCategoria()->value,
+            ':categoria_id' => $socio->getCategoria()->value,
             ':status' => $socio->getStatus()->value,
             ':dancarino' => $socio->isDancarino() ? 1 : 0,
             ':paga_instrutor' => $socio->isPagaInstrutor() ? 1 : 0,
@@ -115,9 +118,10 @@ class SocioRepository
 
         $id = (int)$this->connection->lastInsertId();
 
-        return new Socio(
+        $created = new Socio(
             $socio->getNome(),
             $socio->getCpf(),
+            $socio->getEmail(),
             $socio->getTelefone(),
             $socio->getFoto(),
             $socio->getIdentidade(),
@@ -130,6 +134,12 @@ class SocioRepository
             $socio->isPagaInstrutor(),
             $id
         );
+
+        if ($socio->getCartaoTrad()) {
+            $created->setCartaoTrad($socio->getCartaoTrad());
+        }
+
+        return $created;
     }
 
     public function update(Socio $socio): void
@@ -138,13 +148,14 @@ class SocioRepository
             UPDATE socios SET
                 nome_completo = :nome_completo,
                 cpf = :cpf,
+                email = :email,
                 telefone = :telefone,
                 foto = :foto,
                 identidade = :identidade,
                 endereco = :endereco,
                 data_nascimento = :data_nascimento,
                 data_entrada = :data_entrada,
-                categoria = :categoria,
+                categoria_id = :categoria_id,
                 status = :status,
                 dancarino = :dancarino,
                 paga_instrutor = :paga_instrutor,
@@ -156,13 +167,14 @@ class SocioRepository
             ':id' => $socio->getId(),
             ':nome_completo' => $socio->getNome(),
             ':cpf' => $socio->getCpf(),
+            ':email' => $socio->getEmail(),
             ':telefone' => $socio->getTelefone(),
             ':foto' => $socio->getFoto(),
             ':identidade' => $socio->getIdentidade(),
             ':endereco' => $this->enderecoToString($socio->getEndereco()),
             ':data_nascimento' => $socio->getDataNascimento()->format('Y-m-d'),
             ':data_entrada' => $socio->getDataEntrada()->format('Y-m-d'),
-            ':categoria' => $socio->getCategoria()->value,
+            ':categoria_id' => $socio->getCategoria()->value,
             ':status' => $socio->getStatus()->value,
             ':dancarino' => $socio->isDancarino() ? 1 : 0,
             ':paga_instrutor' => $socio->isPagaInstrutor() ? 1 : 0,
@@ -183,6 +195,7 @@ class SocioRepository
         $socio = new Socio(
             $row['nome_completo'],
             $row['cpf'],
+            $row['email'] ?? '',
             $row['telefone'],
             $row['foto'] ?? '',
             $row['identidade'],
@@ -190,7 +203,7 @@ class SocioRepository
             new DateTime($row['data_nascimento']),
             new DateTime($row['data_entrada']),
             StatusSocio::from($row['status']),
-            CategoriaSocio::from($row['categoria']),
+            CategoriaSocio::from((string)$row['categoria_id']),
             (bool)$row['dancarino'],
             (bool)$row['paga_instrutor'],
             (int)$row['id']
@@ -198,11 +211,11 @@ class SocioRepository
 
         if (!empty($row['cartao_trad_id'])) {
             $cartao = new CartaoTrad(
+                null,
+                null,
                 new DateTime(),
-                new DateTime(),
-                '',
+                false,
                 0,
-                '',
                 (int)$row['cartao_trad_id']
             );
             $socio->setCartaoTrad($cartao);
@@ -226,16 +239,16 @@ class SocioRepository
 
     private function stringToEndereco(string $str): Endereco
     {
-        [$logradouro, $numero, $complemento, $bairro, $cidade, $estado, $cep] = explode('|', $str);
-
+        $parts = explode('|', $str);
+        
         return new Endereco(
-            $logradouro,
-            $numero,
-            $bairro,
-            $cidade,
-            $estado,
-            $cep,
-            $complemento ?: null
+            $parts[0] ?? '', // logradouro
+            $parts[1] ?? '', // numero
+            $parts[3] ?? '', // bairro
+            $parts[4] ?? '', // cidade
+            $parts[5] ?? '', // estado
+            $parts[6] ?? '', // cep
+            empty($parts[2]) ? null : $parts[2] // complemento
         );
     }
 }
