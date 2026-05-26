@@ -6,6 +6,7 @@ require_once 'src/config.php';
 use Controller\RelatorioController;
 use Controller\MensalidadeController;
 use Controller\PagamentoController;
+use Controller\CategoriaController;
 use Controller\SocioController;
 use Controller\DependenteController;
 use Controller\CartaoTradController;
@@ -34,6 +35,11 @@ switch ($request->getResource()) { //conforme o recurso solicitado
         // rotas para /pagamentos
         $pagamentoController = new PagamentoController();
         $pagamentoController->processRequest($request);
+        break;
+    case 'categorias':
+        // rotas para /categorias
+        $categoriaController = new CategoriaController();
+        $categoriaController->processRequest($request);
         break;
     case 'socios':
         // rotas para /socios
