@@ -23,13 +23,8 @@ CREATE TABLE `dependentes` (
   `telefone` varchar(255),
   `cpf` varchar(255),
   `foto` blob,
-  `identidade` varchar(255),
-  `endereco` text,
   `data_nascimento` date,
-  `data_entrada` date,
-  `categoria_id` integer,
-  `dancarino` boolean DEFAULT false,
-  `paga_instrutor` boolean DEFAULT false
+  `dancarino` boolean DEFAULT false
 );
 
 CREATE TABLE `categorias` (
@@ -69,8 +64,6 @@ CREATE TABLE `cartao_tradicionalista` (
 );
 
 ALTER TABLE `socios` ADD FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`);
-
-ALTER TABLE `dependentes` ADD FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`);
 
 ALTER TABLE `dependentes` ADD FOREIGN KEY (`socio_titular_id`) REFERENCES `socios` (`id`) ON DELETE CASCADE;
 

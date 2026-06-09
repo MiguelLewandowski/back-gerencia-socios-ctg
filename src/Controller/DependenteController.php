@@ -48,13 +48,8 @@ class DependenteController
                     nomeCompleto: $data['nome_completo'],
                     cpf: $data['cpf'],
                     telefone: $data['telefone'],
-                    identidade: $data['identidade'],
-                    endereco: $data['endereco'],
                     dataNascimento: new DateTime($data['data_nascimento']),
-                    dataEntrada: new DateTime($data['data_entrada']),
-                    categoriaId: (int)$data['categoria_id'],
-                    dancarino: (bool)$data['dancarino'],
-                    pagaInstrutor: (bool)$data['paga_instrutor']
+                    dancarino: (bool)$data['dancarino']
                 );
 
                 $created = $this->dependenteService->create($dependente);
@@ -74,13 +69,8 @@ class DependenteController
                     nomeCompleto: $data['nome_completo'],
                     cpf: $data['cpf'],
                     telefone: $data['telefone'],
-                    identidade: $data['identidade'],
-                    endereco: $data['endereco'],
                     dataNascimento: new DateTime($data['data_nascimento']),
-                    dataEntrada: new DateTime($data['data_entrada']),
-                    categoriaId: (int)$data['categoria_id'],
                     dancarino: (bool)$data['dancarino'],
-                    pagaInstrutor: (bool)$data['paga_instrutor'],
                     id: (int)$id
                 );
 

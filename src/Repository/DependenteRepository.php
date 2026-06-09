@@ -56,9 +56,8 @@ class DependenteRepository
     {
         $stmt = $this->connection->prepare(
             "INSERT INTO dependentes 
-             (socio_titular_id, nome_completo, cpf, telefone, identidade, endereco, 
-              data_nascimento, data_entrada, categoria_id, dancarino, paga_instrutor) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+             (socio_titular_id, nome_completo, cpf, telefone, data_nascimento, dancarino) 
+             VALUES (?, ?, ?, ?, ?, ?)"
         );
 
         $stmt->execute([
@@ -66,13 +65,8 @@ class DependenteRepository
             $dependente->getNomeCompleto(),
             $dependente->getCpf(),
             $dependente->getTelefone(),
-            $dependente->getIdentidade(),
-            $dependente->getEndereco(),
             $dependente->getDataNascimento()->format('Y-m-d'),
-            $dependente->getDataEntrada()->format('Y-m-d'),
-            $dependente->getCategoriaId(),
-            $dependente->isDancarino() ? 1 : 0,
-            $dependente->isPagaInstrutor() ? 1 : 0
+            $dependente->isDancarino() ? 1 : 0
         ]);
 
         $dependente->setId((int)$this->connection->lastInsertId());
@@ -84,8 +78,7 @@ class DependenteRepository
         $stmt = $this->connection->prepare(
             "UPDATE dependentes SET 
              socio_titular_id = ?, nome_completo = ?, cpf = ?, telefone = ?, 
-             identidade = ?, endereco = ?, data_nascimento = ?, data_entrada = ?, 
-             categoria_id = ?, dancarino = ?, paga_instrutor = ? 
+             data_nascimento = ?, dancarino = ? 
              WHERE id = ?"
         );
 
@@ -94,13 +87,8 @@ class DependenteRepository
             $dependente->getNomeCompleto(),
             $dependente->getCpf(),
             $dependente->getTelefone(),
-            $dependente->getIdentidade(),
-            $dependente->getEndereco(),
             $dependente->getDataNascimento()->format('Y-m-d'),
-            $dependente->getDataEntrada()->format('Y-m-d'),
-            $dependente->getCategoriaId(),
             $dependente->isDancarino() ? 1 : 0,
-            $dependente->isPagaInstrutor() ? 1 : 0,
             $dependente->getId()
         ]);
     }
@@ -118,13 +106,8 @@ class DependenteRepository
             nomeCompleto: $row['nome_completo'],
             cpf: $row['cpf'],
             telefone: $row['telefone'],
-            identidade: $row['identidade'],
-            endereco: $row['endereco'],
             dataNascimento: new DateTime($row['data_nascimento']),
-            dataEntrada: new DateTime($row['data_entrada']),
-            categoriaId: (int)$row['categoria_id'],
             dancarino: (bool)$row['dancarino'],
-            pagaInstrutor: (bool)$row['paga_instrutor'],
             id: (int)$row['id']
         );
     }

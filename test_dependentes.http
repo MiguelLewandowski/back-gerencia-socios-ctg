@@ -23,13 +23,8 @@ Content-Type: application/json
 	"nome_completo": "Rafael Silva",
 	"cpf": "444.555.666-00",
 	"telefone": "(11) 94444-4444",
-	"identidade": "MG-44.555.666",
-	"endereco": "Rua das Flores, 123",
 	"data_nascimento": "2018-07-20",
-	"data_entrada": "2026-04-01",
-	"categoria_id": 1,
-	"dancarino": true,
-	"paga_instrutor": false
+	"dancarino": true
 }
 
 ###
@@ -49,13 +44,8 @@ Content-Type: application/json
 	"nome_completo": "Rafael Silva Atualizado",
 	"cpf": "444.555.666-00",
 	"telefone": "(11) 93333-3333",
-	"identidade": "MG-44.555.666",
-	"endereco": "Rua Nova, 456",
 	"data_nascimento": "2018-07-20",
-	"data_entrada": "2026-04-01",
-	"categoria_id": 2,
-	"dancarino": true,
-	"paga_instrutor": true
+	"dancarino": true
 }
 
 ###
